@@ -37,9 +37,10 @@ const SignIn: React.FC = () => {
 
       <Button
         title='Entrar'
-        onPress={() => console.log('Entrar')}
+        onPress={controller.handleSignIn}
         buttonStyle={{ marginTop: theme.spacing.xl }}
         containerStyle={{ width: '100%' }}
+        loading={controller.loading}
       />
 
       <Button
@@ -48,6 +49,7 @@ const SignIn: React.FC = () => {
         onPress={controller.handleRegister}
         containerStyle={{ width: '100%' }}
         buttonStyle={{ marginTop: theme.spacing.xl }}
+        disabled={controller.loading}
       />
     </View>
   );

@@ -21,9 +21,18 @@ const Register: React.FC = () => {
         Cadastro
       </Text>
 
-      <Text style={{ marginBottom: theme.spacing.xl }}>
-        Informe seu e-mail para criar uma conta gratuita!
+      <Text style={{ marginBottom: theme.spacing.xl, textAlign: 'center' }}>
+        Informe seu nome e e-mail para criar uma conta gratuita!
       </Text>
+
+      <TextInput
+        placeholder='Nome'
+        value={controller.name}
+        errorMessage={controller.nameError}
+        onChangeText={controller.handleNameChange}
+        autoCorrect={false}
+        autoCapitalize='words'
+      />
 
       <TextInput
         placeholder='E-mail'
@@ -33,6 +42,7 @@ const Register: React.FC = () => {
         keyboardType='email-address'
         autoCapitalize='none'
         autoCorrect={false}
+        containerStyle={{ marginTop: theme.spacing.md }}
       />
 
       <Button
@@ -40,6 +50,8 @@ const Register: React.FC = () => {
         onPress={controller.handleRegister}
         buttonStyle={{ marginTop: theme.spacing.xl }}
         containerStyle={{ width: '100%' }}
+        disabled={!controller.enableRegisterButton}
+        loading={controller.loading}
       />
     </View>
   );
