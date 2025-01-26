@@ -5,5 +5,6 @@ module.exports = {
   ignorePatterns: ['/dist/*'],
   rules: {
     'prettier/prettier': 'error',
+    'react-hooks/exhaustive-deps': 'off',
   },
 };

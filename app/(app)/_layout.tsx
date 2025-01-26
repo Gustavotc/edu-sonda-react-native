@@ -1,9 +1,12 @@
+import { useSession } from '@/src/contexts/AuthContext';
 import { Redirect, Stack } from 'expo-router';
 
 export default function AppLayout() {
-  const isLogged = false;
+  const { user, isLoading } = useSession();
 
-  if (!isLogged) {
+  if (isLoading) return;
+
+  if (!user) {
     return <Redirect href='/signIn' />;
   }
 
