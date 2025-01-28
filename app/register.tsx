@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text, Button, useTheme } from '@rneui/themed';
-import TextInput from '@/src/components/textInput/TextInput';
+import TextInput from '@/src/components/shared/textInput/TextInput';
 import { useRegisterController } from '@/src/hooks/controllers/register/RegisterController';
 
 const Register: React.FC = () => {

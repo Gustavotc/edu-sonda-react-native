@@ -13,7 +13,7 @@ type IResponse<T> =
   | { data: null; error: { code: number; message: string } };
 
 type IPaginatedResponse<T> = {
-  data: T;
+  data: T[];
   error: null;
   total_page: number;
   per_page: number;
