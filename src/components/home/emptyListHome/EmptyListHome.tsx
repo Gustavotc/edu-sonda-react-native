@@ -2,7 +2,11 @@ import React from 'react';
 import { View } from 'react-native';
 import { Text, Button, useTheme } from '@rneui/themed';
 
-const EmptyListHome: React.FC = () => {
+type Props = {
+  handleCreateClass: () => void;
+};
+
+const EmptyListHome: React.FC<Props> = ({ handleCreateClass }) => {
   const { theme } = useTheme();
 
   return (
@@ -24,6 +28,7 @@ const EmptyListHome: React.FC = () => {
       <Button
         title='Cadastrar turma'
         buttonStyle={{ marginTop: theme.spacing.xl }}
+        onPress={handleCreateClass}
       />
     </View>
   );
