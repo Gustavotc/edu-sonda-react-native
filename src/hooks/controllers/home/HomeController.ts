@@ -1,3 +1,15 @@
+import { useState } from 'react';
+
 export const useHomeController = () => {
-  return {};
+  const [showNewClassModal, setShowNewClassModal] = useState(false);
+
+  const handleCreateClass = () => {
+    setShowNewClassModal(true);
+  };
+
+  const handleCloseCreateClassModal = () => {
+    setShowNewClassModal(false);
+  };
+
+  return { showNewClassModal, handleCreateClass, handleCloseCreateClassModal };
 };
