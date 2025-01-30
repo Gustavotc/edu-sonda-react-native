@@ -6,9 +6,9 @@ export default function AppLayout() {
 
   if (isLoading) return;
 
-  // if (!user) {
-  //   return <Redirect href='/signIn' />;
-  // }
+  if (!user) {
+    return <Redirect href='/signIn' />;
+  }
 
   return <Stack screenOptions={{ headerShown: false }} />;
 }

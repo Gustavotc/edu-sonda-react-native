@@ -31,7 +31,7 @@ export default class ClassService {
     page: number,
     limit = 10,
   ): Promise<{ data: IClass[]; totalPages: number }> {
-    const url = `${BASE_URL}/classes?page=${page}&limit=${limit}&teacherId=${teacherId}`;
+    const url = `${BASE_URL}/classe?teacher_id=${teacherId}&page=${page}&limit=${limit}`;
 
     const httpResponse = await this.httpClient.request<
       IPaginatedResponse<IClassJson>
@@ -60,7 +60,7 @@ export default class ClassService {
   }
 
   async createClass(params: ICreateClassParams): Promise<IClass> {
-    const url = `${BASE_URL}/classes`;
+    const url = `${BASE_URL}/classe`;
 
     const body: ICreateClassBody = {
       name: params.name,
