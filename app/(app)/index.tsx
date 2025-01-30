@@ -1,18 +1,23 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
-import { useTheme, Text, Button } from '@rneui/themed';
+import { useTheme, Text, Button, Card } from '@rneui/themed';
 import ProfileTopBar from '@/src/components/home/profileTopBar/ProfileTopBar';
 import { useHomeController } from '@/src/hooks/controllers/home/HomeController';
 import EmptyListHome from '@/src/components/home/emptyListHome/EmptyListHome';
 import CreateClassModal from '@/src/components/home/createClassModal/CreateClassModal';
+import { IClass } from '@/src/domain/entities/Classes';
 
 const Home: React.FC = () => {
   const { theme } = useTheme();
 
   const controller = useHomeController();
 
-  const renderItem = () => {
-    return <View />;
+  const renderItem = (item: IClass) => {
+    return (
+      <Card containerStyle={{ width: '100%', margin: 0, marginBottom: 8 }}>
+        <Text style={{ fontSize: 16, fontWeight: 600 }}>{item.name}</Text>
+      </Card>
+    );
   };
 
   return (
@@ -28,7 +33,7 @@ const Home: React.FC = () => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginTop: theme.spacing.xl,
+          marginVertical: theme.spacing.xl,
         }}>
         <Text
           style={{
@@ -47,8 +52,8 @@ const Home: React.FC = () => {
       </View>
 
       <FlatList
-        data={[]}
-        renderItem={renderItem}
+        data={controller.classes}
+        renderItem={({ item }) => renderItem(item)}
         contentContainerStyle={{ flexGrow: 1 }}
         ListEmptyComponent={
           <EmptyListHome handleCreateClass={controller.handleCreateClass} />
