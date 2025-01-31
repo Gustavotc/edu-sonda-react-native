@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 import { useTheme, Text, Button, Card } from '@rneui/themed';
 import ProfileTopBar from '@/src/components/home/profileTopBar/ProfileTopBar';
 import { useHomeController } from '@/src/hooks/controllers/home/HomeController';
@@ -14,9 +14,13 @@ const Home: React.FC = () => {
 
   const renderItem = (item: IClass) => {
     return (
-      <Card containerStyle={{ width: '100%', margin: 0, marginBottom: 8 }}>
-        <Text style={{ fontSize: 16, fontWeight: 600 }}>{item.name}</Text>
-      </Card>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => controller.handleClassPress(item)}>
+        <Card containerStyle={{ width: '100%', margin: 0, marginBottom: 8 }}>
+          <Text style={{ fontSize: 16, fontWeight: 600 }}>{item.name}</Text>
+        </Card>
+      </TouchableOpacity>
     );
   };
 
