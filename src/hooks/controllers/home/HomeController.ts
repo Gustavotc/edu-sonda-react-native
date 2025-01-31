@@ -1,6 +1,7 @@
 import { useSession } from '@/src/contexts/AuthContext';
 import { IClass } from '@/src/domain/entities/Classes';
 import makeFetchTeacherClasses from '@/src/factories/usecases/FetchTeacherClassesFactory';
+import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 
 export const useHomeController = () => {
@@ -47,6 +48,13 @@ export const useHomeController = () => {
     }
   };
 
+  const handleClassPress = (classroom: IClass) => {
+    router.navigate({
+      pathname: '/classroom/[id]',
+      params: { id: classroom.id },
+    });
+  };
+
   useEffect(() => {
     updateClasses();
   }, []);
@@ -57,5 +65,6 @@ export const useHomeController = () => {
     loading,
     handleCreateClass,
     handleCloseCreateClassModal,
+    handleClassPress,
   };
 };

@@ -13,6 +13,7 @@ const ProfileTopBar: React.FC = () => {
         flexDirection: 'row',
         width: '100%',
         alignItems: 'center',
+        marginTop: 16,
       }}>
       <Icon name='user-circle' type='font-awesome-5' />
 
