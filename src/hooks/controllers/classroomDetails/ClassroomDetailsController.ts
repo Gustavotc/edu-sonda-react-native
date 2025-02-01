@@ -9,6 +9,7 @@ export const useClassroomDetailsController = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const [loading, setLoading] = useState(false);
+  const [showCreateStudent, setShowCreateStudent] = useState(false);
   const [classroomDetails, setClassroomDetails] =
     useState<IClassroomDetails | null>(null);
 
@@ -31,9 +32,23 @@ export const useClassroomDetailsController = () => {
     }
   };
 
+  const handleCreateStudent = () => {
+    setShowCreateStudent(true);
+  };
+
+  const handleDismissCreateStudent = () => {
+    setShowCreateStudent(false);
+  };
+
   useEffect(() => {
     updateClassroomDetails();
   }, []);
 
-  return { loading, classroomDetails };
+  return {
+    loading,
+    classroomDetails,
+    showCreateStudent,
+    handleCreateStudent,
+    handleDismissCreateStudent,
+  };
 };
