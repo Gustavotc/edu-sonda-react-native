@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, TouchableOpacity, View } from 'react-native';
-import { useTheme, Text, Button, Card } from '@rneui/themed';
+import { useTheme, Text, Button, Card, ListItem } from '@rneui/themed';
 import ProfileTopBar from '@/src/components/home/profileTopBar/ProfileTopBar';
 import { useHomeController } from '@/src/hooks/controllers/home/HomeController';
 import EmptyListHome from '@/src/components/home/emptyListHome/EmptyListHome';
@@ -14,13 +14,11 @@ const Home: React.FC = () => {
 
   const renderItem = (item: IClass) => {
     return (
-      <TouchableOpacity
-        activeOpacity={0.7}
+      <ListItem
+        containerStyle={{ width: '100%', margin: 0, marginBottom: 8 }}
         onPress={() => controller.handleClassPress(item)}>
-        <Card containerStyle={{ width: '100%', margin: 0, marginBottom: 8 }}>
-          <Text style={{ fontSize: 16, fontWeight: 600 }}>{item.name}</Text>
-        </Card>
-      </TouchableOpacity>
+        <Text style={{ fontSize: 16, fontWeight: 600 }}>{item.name}</Text>
+      </ListItem>
     );
   };
 
