@@ -1,6 +1,8 @@
 import { useSession } from '@/src/contexts/AuthContext';
 import { IClassroomDetails } from '@/src/domain/entities/ClassroomDetails';
+import { IExam } from '@/src/domain/entities/Exam';
 import makeFetchClassroomDetails from '@/src/factories/usecases/FetchClassroomDetailsFactory';
+import makeFetchExamsByClassroomId from '@/src/factories/usecases/FetchExamsByClassroomIdFactory';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 
@@ -12,6 +14,7 @@ export const useClassroomDetailsController = () => {
   const [showCreateStudent, setShowCreateStudent] = useState(false);
   const [classroomDetails, setClassroomDetails] =
     useState<IClassroomDetails | null>(null);
+  const [exams, setExams] = useState<IExam[]>([]);
 
   const updateClassroomDetails = async () => {
     if (!user?.id) return;
@@ -22,7 +25,14 @@ export const useClassroomDetailsController = () => {
         teacherId: user.id,
         classroomId: Number(id),
       });
+
       setClassroomDetails(response);
+
+      const examsResponse = await makeFetchExamsByClassroomId().execute(
+        response.classroom.id,
+      );
+
+      setExams(examsResponse.data);
     } catch {
       // TODO - Exibir toast
       console.log('Falha ao buscar detalhes da turma');
@@ -48,6 +58,7 @@ export const useClassroomDetailsController = () => {
     loading,
     classroomDetails,
     showCreateStudent,
+    exams,
     handleCreateStudent,
     handleDismissCreateStudent,
   };

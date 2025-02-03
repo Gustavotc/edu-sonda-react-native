@@ -48,7 +48,7 @@ export default class ClassService {
         name: item.name,
         year: item.year,
         step: item.step,
-        teacherId: item.teacher_id,
+        teacherId: item.teacher.id,
         students: [],
       };
     });
@@ -82,7 +82,7 @@ export default class ClassService {
       name: data.name,
       year: data.year,
       step: data.step,
-      teacherId: data.teacher_id,
+      teacherId: data.teacher.id,
       students: [],
     };
   }

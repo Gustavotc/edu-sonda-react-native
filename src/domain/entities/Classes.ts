@@ -5,7 +5,11 @@ export type IClassJson = {
   name: string;
   year: number;
   step: string;
-  teacher_id: number;
+  teacher: {
+    id: number;
+    email: string;
+    name: string;
+  };
 };
 
 export type IClass = {

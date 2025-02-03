@@ -33,8 +33,6 @@ export default class EnrollmentService {
       body,
     });
 
-    console.log(httpResponse);
-
     const data = this.errorHandler.handle<IEnrollmentJson>(httpResponse.data);
 
     return {
