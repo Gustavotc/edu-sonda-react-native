@@ -1,13 +1,24 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { FlatList, ScrollView, View } from 'react-native';
 import { Badge, Button, Text, useTheme } from '@rneui/themed';
 import { useClassroomDetailsController } from '@/src/hooks/controllers/classroomDetails/ClassroomDetailsController';
 import ExamButton from '@/src/components/classroomDetails/examButton/ExamButton';
 import CreateStudentModal from '@/src/components/classroomDetails/createStudentModal/CreateStudentModal';
+import { IExam } from '@/src/domain/entities/Exam';
 
 const ClassroomDetails: React.FC = () => {
   const { theme } = useTheme();
   const controller = useClassroomDetailsController();
+
+  const renderExam = (item: IExam, index: number) => {
+    return (
+      <ExamButton
+        title={`${index + 1}°\nBimestre`}
+        active
+        onPress={() => console.log(item)}
+      />
+    );
+  };
 
   return (
     <View
@@ -35,37 +46,15 @@ const ClassroomDetails: React.FC = () => {
         Sondagens
       </Text>
 
-      <ScrollView
-        style={{ flexGrow: 0, width: '100%' }}
+      <FlatList
+        data={controller.exams}
         horizontal
+        renderItem={({ item, index }) => renderExam(item, index)}
+        style={{ flexGrow: 0 }}
         contentContainerStyle={{
-          width: '100%',
           gap: theme.spacing.sm,
-        }}>
-        <ExamButton
-          title={'1°\nBimestre'}
-          active
-          onPress={() => console.log('teste')}
-        />
-
-        <ExamButton
-          title={'2°\nBimestre'}
-          active={false}
-          onPress={() => console.log('teste')}
-        />
-
-        <ExamButton
-          title={'3°\nBimestre'}
-          active={false}
-          onPress={() => console.log('teste')}
-        />
-
-        <ExamButton
-          title={'4°\nBimestre'}
-          active={false}
-          onPress={() => console.log('teste')}
-        />
-      </ScrollView>
+        }}
+      />
 
       <View
         style={{

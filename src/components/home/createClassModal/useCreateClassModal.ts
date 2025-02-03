@@ -4,9 +4,9 @@ import {
   createClassSchema,
   ICreateClassSchema,
 } from '@/src/validators/schemas/CreateClassSchema';
-import makeCreateClass from '@/src/factories/usecases/CreateClassFactory';
 import { useSession } from '@/src/contexts/AuthContext';
 import { useState } from 'react';
+import makeCreateClassAndDefaultExams from '@/src/factories/usecases/CreateClassAndDefaultExamsFactory';
 
 export const useCreateClassModal = () => {
   const { user } = useSession();
@@ -30,8 +30,11 @@ export const useCreateClassModal = () => {
 
     try {
       setLoading(true);
-      await makeCreateClass().execute({ ...data, teacherId: user.id });
-      console.log('foi');
+      const classroom = await makeCreateClassAndDefaultExams().execute({
+        ...data,
+        teacherId: user.id,
+      });
+      console.log(classroom);
     } catch {
       // TODO - Adicionar Toast
       console.log('Falha ao criar turma');
