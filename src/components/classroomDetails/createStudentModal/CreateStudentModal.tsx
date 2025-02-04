@@ -5,15 +5,25 @@ import TextInput from '../../shared/textInput/TextInput';
 import { Controller } from 'react-hook-form';
 import { useCreateStudentModal } from './useCreateStudentModal';
 import MaskUtils from '@/src/utils/masks/MaskUtils';
+import { IStudent } from '@/src/domain/entities/Student';
 
 type Props = {
   classroomId: number;
   handleClose: () => void;
+  onNewStudent: (student: IStudent) => void;
 };
 
-const CreateStudentModal: React.FC<Props> = ({ classroomId, handleClose }) => {
+const CreateStudentModal: React.FC<Props> = ({
+  classroomId,
+  handleClose,
+  onNewStudent,
+}) => {
   const { theme } = useTheme();
-  const controller = useCreateStudentModal({ classroomId, handleClose });
+  const controller = useCreateStudentModal({
+    classroomId,
+    handleClose,
+    onNewStudent,
+  });
 
   return (
     <Modal

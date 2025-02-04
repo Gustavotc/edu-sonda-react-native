@@ -1,8 +1,10 @@
 import { useSession } from '@/src/contexts/AuthContext';
 import { IClassroomDetails } from '@/src/domain/entities/ClassroomDetails';
 import { IExam } from '@/src/domain/entities/Exam';
+import { IStudent } from '@/src/domain/entities/Student';
 import makeFetchClassroomDetails from '@/src/factories/usecases/FetchClassroomDetailsFactory';
 import makeFetchExamsByClassroomId from '@/src/factories/usecases/FetchExamsByClassroomIdFactory';
+import makeFetchStudentsByClassroomId from '@/src/factories/usecases/FetchStudentsByClassroomIdFactory';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 
@@ -33,6 +35,8 @@ export const useClassroomDetailsController = () => {
       );
 
       setExams(examsResponse.data);
+
+      await updateStudents(response.classroom.id, response.teacher.id);
     } catch {
       // TODO - Exibir toast
       console.log('Falha ao buscar detalhes da turma');
@@ -42,12 +46,44 @@ export const useClassroomDetailsController = () => {
     }
   };
 
+  const updateStudents = async (classroomId: number, teacherId: number) => {
+    try {
+      const response = await makeFetchStudentsByClassroomId().execute({
+        classroomId,
+        teacherId,
+      });
+
+      setClassroomDetails((state) => {
+        if (!state) return null;
+        return { ...state, students: response.data };
+      });
+    } catch {
+      // TODO - Exibir toast
+      console.log('Falha ao buscar alunos da turma');
+    }
+  };
+
+  const onNewStudent = (student: IStudent) => {
+    setClassroomDetails((oldState) => {
+      if (!oldState) return null;
+
+      return {
+        ...oldState,
+        students: [...(oldState?.students ?? []), student],
+      };
+    });
+  };
+
   const handleCreateStudent = () => {
     setShowCreateStudent(true);
   };
 
   const handleDismissCreateStudent = () => {
     setShowCreateStudent(false);
+  };
+
+  const handleExamPress = (exam: IExam) => {
+    router.navigate({ pathname: '/(app)/exam/[id]', params: { id: exam.id } });
   };
 
   useEffect(() => {
@@ -61,5 +97,7 @@ export const useClassroomDetailsController = () => {
     exams,
     handleCreateStudent,
     handleDismissCreateStudent,
+    handleExamPress,
+    onNewStudent,
   };
 };

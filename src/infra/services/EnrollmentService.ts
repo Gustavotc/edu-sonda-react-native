@@ -1,8 +1,14 @@
 import { IEnrollStudentParams } from '@/src/domain/usecases/EnrollStudent';
 import { IErrorHandler } from '../errorHandlers/IErrorHandler';
-import { IHttpClient, IResponse } from '../httpClient/IHTTPClient';
+import {
+  IHttpClient,
+  IPaginatedResponse,
+  IResponse,
+} from '../httpClient/IHTTPClient';
 import { IEnrollment, IEnrollmentJson } from '@/src/domain/entities/Enrollment';
 import MaskUtils from '@/src/utils/masks/MaskUtils';
+import { IStudent, IStudentJson } from '@/src/domain/entities/Student';
+import { IWithPagination } from '@/src/domain/usecases/interfaces/WithPagination';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -44,6 +50,35 @@ export default class EnrollmentService {
         name: data.student.name,
         dateOfBirth: data.student.date_of_birth,
       },
+    };
+  }
+
+  async fetchStudentsByClassroomId(
+    classroomId: number,
+    teacherId: number,
+  ): Promise<IWithPagination<IStudent>> {
+    const url = `${BASE_URL}/enrollment/${classroomId}/students?teacher_id=${teacherId}&limit=100&page=1`;
+
+    const httpResponse = await this.httpClient.request<
+      IPaginatedResponse<IStudentJson>
+    >({
+      method: 'get',
+      url,
+    });
+
+    const data = this.errorHandler.handle<IStudentJson[]>(httpResponse.data);
+
+    const students = data.map<IStudent>((studentJson) => {
+      return {
+        id: studentJson.id,
+        name: studentJson.name,
+        dateOfBirth: studentJson.date_of_birth,
+      };
+    });
+
+    return {
+      data: students,
+      totalPages: httpResponse.data.total_page,
     };
   }
 }

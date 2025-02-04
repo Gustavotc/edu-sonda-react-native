@@ -15,9 +15,14 @@ const Home: React.FC = () => {
   const renderItem = (item: IClass) => {
     return (
       <ListItem
-        containerStyle={{ width: '100%', margin: 0, marginBottom: 8 }}
+        containerStyle={{ marginBottom: 8, justifyContent: 'space-between' }}
         onPress={() => controller.handleClassPress(item)}>
-        <Text style={{ fontSize: 16, fontWeight: 600 }}>{item.name}</Text>
+        <ListItem.Title>{item.name}</ListItem.Title>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+          <ListItem.Subtitle>{item.year}</ListItem.Subtitle>
+          <ListItem.Chevron />
+        </View>
       </ListItem>
     );
   };
@@ -55,6 +60,7 @@ const Home: React.FC = () => {
 
       <FlatList
         data={controller.classes}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => renderItem(item)}
         contentContainerStyle={{ flexGrow: 1 }}
         ListEmptyComponent={
@@ -65,6 +71,7 @@ const Home: React.FC = () => {
       {controller.showNewClassModal && (
         <CreateClassModal
           handleClose={controller.handleCloseCreateClassModal}
+          onNewClass={controller.onNewClassroom}
         />
       )}
     </View>
