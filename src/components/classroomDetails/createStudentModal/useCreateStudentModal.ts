@@ -1,4 +1,5 @@
 import { useSession } from '@/src/contexts/AuthContext';
+import { IStudent } from '@/src/domain/entities/Student';
 import makeCreateAndEnrollStudent from '@/src/factories/usecases/CreateAndEnrollStudentFactory';
 import {
   createStudentSchema,
@@ -10,9 +11,14 @@ import { useForm } from 'react-hook-form';
 type Props = {
   classroomId: number;
   handleClose: () => void;
+  onNewStudent: (student: IStudent) => void;
 };
 
-export const useCreateStudentModal = ({ classroomId, handleClose }: Props) => {
+export const useCreateStudentModal = ({
+  classroomId,
+  handleClose,
+  onNewStudent,
+}: Props) => {
   const { user } = useSession();
 
   const {
@@ -36,6 +42,7 @@ export const useCreateStudentModal = ({ classroomId, handleClose }: Props) => {
       });
 
       console.log(enrollment);
+      onNewStudent(enrollment.student);
       handleClose();
     } catch {
       // TODO - Exibir toast

@@ -75,4 +75,21 @@ export default class ExamService {
       date: new Date(data.date),
     };
   }
+
+  async fetchById(examId: number): Promise<IExam> {
+    const url = `${BASE_URL}/exams/${examId}`;
+
+    const httpResponse = await this.httpClient.request<IResponse<IExamJson>>({
+      method: 'get',
+      url,
+    });
+
+    const data = this.errorHandler.handle<IExamJson>(httpResponse.data);
+
+    return {
+      id: data.id,
+      answerable: data.answerable,
+      date: new Date(data.date),
+    };
+  }
 }

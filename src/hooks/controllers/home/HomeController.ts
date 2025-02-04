@@ -55,6 +55,10 @@ export const useHomeController = () => {
     });
   };
 
+  const onNewClassroom = (classroom: IClass) => {
+    setClasses((state) => [...state, classroom]);
+  };
+
   useEffect(() => {
     updateClasses();
   }, []);
@@ -66,5 +70,6 @@ export const useHomeController = () => {
     handleCreateClass,
     handleCloseCreateClassModal,
     handleClassPress,
+    onNewClassroom,
   };
 };

@@ -1,10 +1,18 @@
 import React from 'react';
-import { FlatList, ScrollView, View } from 'react-native';
-import { Badge, Button, Text, useTheme } from '@rneui/themed';
+import { FlatList, View } from 'react-native';
+import {
+  Badge,
+  Button,
+  Divider,
+  ListItem,
+  Text,
+  useTheme,
+} from '@rneui/themed';
 import { useClassroomDetailsController } from '@/src/hooks/controllers/classroomDetails/ClassroomDetailsController';
 import ExamButton from '@/src/components/classroomDetails/examButton/ExamButton';
 import CreateStudentModal from '@/src/components/classroomDetails/createStudentModal/CreateStudentModal';
 import { IExam } from '@/src/domain/entities/Exam';
+import { IStudent } from '@/src/domain/entities/Student';
 
 const ClassroomDetails: React.FC = () => {
   const { theme } = useTheme();
@@ -15,8 +23,16 @@ const ClassroomDetails: React.FC = () => {
       <ExamButton
         title={`${index + 1}°\nBimestre`}
         active
-        onPress={() => console.log(item)}
+        onPress={() => controller.handleExamPress(item)}
       />
+    );
+  };
+
+  const renderStudent = (student: IStudent) => {
+    return (
+      <ListItem topDivider>
+        <ListItem.Title>{student.name}</ListItem.Title>
+      </ListItem>
     );
   };
 
@@ -85,8 +101,15 @@ const ClassroomDetails: React.FC = () => {
         <CreateStudentModal
           classroomId={controller.classroomDetails?.classroom.id ?? 0}
           handleClose={controller.handleDismissCreateStudent}
+          onNewStudent={controller.onNewStudent}
         />
       )}
+
+      <FlatList
+        data={controller.classroomDetails?.students}
+        renderItem={({ item }) => renderStudent(item)}
+        ItemSeparatorComponent={() => <Divider />}
+      />
     </View>
   );
 };

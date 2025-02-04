@@ -5,14 +5,16 @@ import TextInput from '../../shared/textInput/TextInput';
 import { Controller } from 'react-hook-form';
 import { useCreateClassModal } from './useCreateClassModal';
 import { numberRegex } from '@/src/validators/regex/regex.Utils';
+import { IClass } from '@/src/domain/entities/Classes';
 
 type Props = {
   handleClose: () => void;
+  onNewClass: (classroom: IClass) => void;
 };
 
-const CreateClassModal: React.FC<Props> = ({ handleClose }) => {
+const CreateClassModal: React.FC<Props> = ({ handleClose, onNewClass }) => {
   const { theme } = useTheme();
-  const controller = useCreateClassModal();
+  const controller = useCreateClassModal({ handleClose, onNewClass });
 
   return (
     <Modal
