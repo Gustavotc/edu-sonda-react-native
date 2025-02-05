@@ -1,6 +1,6 @@
 import React from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
-import { useTheme, Text, Button, Card, ListItem } from '@rneui/themed';
+import { FlatList, View } from 'react-native';
+import { useTheme, Text, Button, ListItem } from '@rneui/themed';
 import ProfileTopBar from '@/src/components/home/profileTopBar/ProfileTopBar';
 import { useHomeController } from '@/src/hooks/controllers/home/HomeController';
 import EmptyListHome from '@/src/components/home/emptyListHome/EmptyListHome';

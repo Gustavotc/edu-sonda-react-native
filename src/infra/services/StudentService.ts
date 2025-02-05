@@ -2,6 +2,10 @@ import { IErrorHandler } from '../errorHandlers/IErrorHandler';
 import { IHttpClient, IResponse } from '../httpClient/IHTTPClient';
 import MaskUtils from '@/src/utils/masks/MaskUtils';
 import { IStudent, IStudentJson } from '@/src/domain/entities/Student';
+import {
+  IStudentWithExamFlag,
+  IStudentWithExamFlagJson,
+} from '@/src/domain/entities/StudentWithExamFlag';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -38,5 +42,29 @@ export default class StudentService {
       name: data.name,
       dateOfBirth: data.date_of_birth,
     };
+  }
+
+  async fetchStudentsByExamId(examId: number): Promise<IStudentWithExamFlag[]> {
+    const url = `${BASE_URL}/student/answered-exam?exam_id=${examId}`;
+
+    const httpResponse = await this.httpClient.request<
+      IResponse<IStudentWithExamFlagJson[]>
+    >({
+      method: 'get',
+      url,
+    });
+
+    const data = this.errorHandler.handle<IStudentWithExamFlagJson[]>(
+      httpResponse.data,
+    );
+
+    return data.map((studentJson) => {
+      return {
+        id: studentJson.id,
+        name: studentJson.name,
+        dateOfBirth: studentJson.date_of_birth,
+        hasCompletedExam: studentJson.has_completed_exam,
+      };
+    });
   }
 }
