@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { IExam } from '@/src/domain/entities/Exam';
 import makeFetchExameById from '@/src/factories/usecases/FetchExamByIdFactory';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
+import { IStudentWithExamFlag } from '@/src/domain/entities/StudentWithExamFlag';
+import makeFetchStudentsWithExamFlag from '@/src/factories/usecases/FetchStudentsWithExamFlagFactory';
 
 const getExamBimester = (date: Date): number => {
   const month = date.getMonth() + 1;
@@ -20,6 +22,7 @@ export const useExamDetailsController = () => {
 
   const [loading, setLoading] = useState(false);
   const [examInfo, setExamInfo] = useState<IExam | null>(null);
+  const [students, setStudents] = useState<IStudentWithExamFlag[]>([]);
 
   const updateExamData = async () => {
     try {
@@ -34,9 +37,40 @@ export const useExamDetailsController = () => {
     }
   };
 
+  const updateStudents = async () => {
+    try {
+      setLoading(true);
+      const response = await makeFetchStudentsWithExamFlag().execute(
+        Number(id),
+      );
+      setStudents(response);
+    } catch {
+      // TODO - Exibir toast
+      console.log('Falha ao buscar alunos');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleStudentPress = (student: IStudentWithExamFlag) => {
+    router.navigate({
+      pathname: `/(app)/exam/form/[id]`,
+      params: {
+        id: id,
+        studentId: student.id,
+      },
+    });
+  };
+
   useEffect(() => {
-    updateExamData();
+    Promise.all([updateStudents(), updateExamData()]);
   }, []);
 
-  return { loading, examInfo, getExamBimester };
+  return {
+    loading,
+    examInfo,
+    students,
+    getExamBimester,
+    handleStudentPress,
+  };
 };
