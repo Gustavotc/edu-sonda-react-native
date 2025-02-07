@@ -18,7 +18,6 @@ const ExameDetails: React.FC = () => {
         <ListItem.Title>{student.name}</ListItem.Title>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <ListItem.CheckBox checked={student.hasCompletedExam} />
           <ListItem.Chevron />
         </View>
       </ListItem>

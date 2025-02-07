@@ -12,7 +12,7 @@ const getExamBimester = (date: Date): number => {
 
   if (month < 5) return 2;
 
-  if (month < 7) return 3;
+  if (month < 8) return 3;
 
   return 4;
 };

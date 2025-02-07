@@ -6,6 +6,14 @@ const alternativeSchema = z.union([
   z.literal('Todas', { message: 'Campo obrigatório' }),
 ]);
 
+const classificationSchema = z.union([
+  z.literal('pré silábico', { message: 'Campo obrigatório' }),
+  z.literal('silábico sem valor', { message: 'Campo obrigatório' }),
+  z.literal('silábico com valor', { message: 'Campo obrigatório' }),
+  z.literal('silábico alfabético', { message: 'Campo obrigatório' }),
+  z.literal('alfabético', { message: 'Campo obrigatório' }),
+]);
+
 const boolAlternativeSchema = z.boolean({ message: 'Campo obrigatório' });
 
 export const examFormSchema = z
@@ -16,6 +24,7 @@ export const examFormSchema = z
     recognizesColors: alternativeSchema,
     recognizesForms: alternativeSchema,
     recognizesOwnBody: boolAlternativeSchema,
+    classification: classificationSchema,
   })
   .required();
 

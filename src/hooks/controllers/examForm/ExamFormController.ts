@@ -26,6 +26,7 @@ export const useExameFormController = () => {
   const [disableForm, setDisableForm] = useState(false);
 
   const onSubmitSuccess = async (data: IExamFormSchema) => {
+    console.log(data);
     const key = `${studentId}-${id}-response`;
     await makeLocalStorage().setObject(key, data);
     setDisableForm(true);
@@ -45,6 +46,7 @@ export const useExameFormController = () => {
     setValue('recognizesName', prevResponse.recognizesName);
     setValue('recognizesNumbers', prevResponse.recognizesNumbers);
     setValue('recognizesOwnBody', prevResponse.recognizesOwnBody);
+    setValue('classification', prevResponse.classification);
   };
 
   useEffect(() => {

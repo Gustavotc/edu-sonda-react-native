@@ -111,6 +111,31 @@ const ExamForm: React.FC = () => {
             )}
           />
 
+          <Controller
+            control={controller.control}
+            name='classification'
+            render={({ field: { value, onChange } }) => {
+              const alternatives = [
+                'pré silábico',
+                'silábico sem valor',
+                'silábico com valor',
+                'silábico alfabético',
+                'alfabético',
+              ];
+              return (
+                <FormQuestion
+                  question='Sondagem'
+                  questionType='alternative'
+                  onChange={onChange}
+                  value={value}
+                  error={controller.errors.classification?.message}
+                  readonly={controller.disableForm}
+                  alternatives={alternatives}
+                />
+              );
+            }}
+          />
+
           <Button
             title='Salvar'
             onPress={controller.handleSubmit}
